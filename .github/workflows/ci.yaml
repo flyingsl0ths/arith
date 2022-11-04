@@ -1,0 +1,41 @@
+name: CI
+on:
+  push:
+    branches:
+      - main
+      - "*/*"
+  pull_request:
+    types: [synchronize, opened, reopened]
+
+jobs:
+  cabal:
+    name: ${{ matrix.os }} / ghc ${{ matrix.ghc }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macOS-latest, windows-latest]
+        cabal: ["3.8"]
+        ghc:
+          - "8.10.7"
+          - "9.0.2"
+          - "9.2.4"
+          - "9.4.2"
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: haskell/actions/setup@v2.0
+        name: Setup Haskell
+        with:
+          ghc-version: ${{ matrix.ghc }}
+          cabal-version: ${{ matrix.cabal }}
+
+      - name: Configure
+        run: cabal configure --enable-tests --test-show-details=direct --write-ghc-environment-files=always
+      - name: Freeze
+        run: cabal freeze
+      - name: Install dependencies
+        run: cabal build all --only-dependencies
+      - name: Build
+        run: cabal build all
+      - name: Test
+        run: cabal test all

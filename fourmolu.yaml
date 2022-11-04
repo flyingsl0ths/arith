@@ -1,0 +1,6 @@
+function-arrows: trailing
+indentation: 2
+let-style: auto
+in-style: left-align
+newlines-between-decls: 2
+record-brace-space: true
