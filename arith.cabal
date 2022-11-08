@@ -16,28 +16,44 @@ extra-source-files:
   CHANGELOG.md
   README.md
 
-executable arith
-  main-is:          Main.hs
-  other-modules:
-    Parser
-    Scanner
-    Stack
-    Token
+common analyze
+  ghc-options: -fwrite-ide-info -hiedir=.hie
 
-  other-extensions: OverloadedStrings
+library lang
+  import:           analyze
+  exposed-modules:  Arith
+  other-modules:
+    Arith.Syntax.Lexer
+    Arith.Syntax.Token
+    Arith.Syntax.Utils
+    Arith.VM.OpCodes
+    Arith.VM.Parser
+    Arith.VM.Stack
+
+  build-depends:    base >=4.14 && <4.18
+  hs-source-dirs:   src
+  default-language: Haskell2010
+  other-extensions:
+    OverloadedStrings
+    RecordWildCards
+
+executable arith
+  import:           analyze
+  main-is:          Main.hs
   build-depends:
-    , base  >=4.14  && <4.18
-    , text  ==2.0.1
+    , base  >=4.14 && <4.18
+    , lang
 
   hs-source-dirs:   app
   default-language: Haskell2010
 
-test-suite dummy
-  main-is:          DummyTest.hs
+test-suite lexer-utils
+  main-is:          LexerUtilsTest.hs
+  other-modules:    Arith.Syntax.Utils
   build-depends:
     , base   >=4.14   && <4.18
     , hspec  ==2.10.6
 
   type:             exitcode-stdio-1.0
-  hs-source-dirs:   test
+  hs-source-dirs:   test src
   default-language: Haskell2010
