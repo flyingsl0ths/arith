@@ -97,7 +97,28 @@ point Lexer {..} =
    in (lexer, makeToken lexer (Just $ '0' : result) AST.Floating)
 
 
+partOfFloatingPoint :: Char -> Bool
 partOfFloatingPoint c = c == '.' || isDigit c
+
+
+isStartOfBuiltIn :: Char -> Maybe Char
+isStartOfBuiltIn c =
+  case c of
+    -- sin/sqrt
+    's' -> Just 's'
+    -- cos
+    'c' -> Just 'c'
+    -- point: Converts integer -> double
+    'p' -> Just 'p'
+    -- log
+    'l' -> Just 'l'
+    -- TODO: Add more built-ins
+    _ -> Nothing
+
+
+-- TODO: Implement
+identifier :: Lexer -> LexerState
+identifier = error "Implement me!!"
 
 
 number :: Lexer -> LexerState
