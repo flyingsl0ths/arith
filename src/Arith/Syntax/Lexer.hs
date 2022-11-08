@@ -49,11 +49,11 @@ scan lexer =
     (')' : _) -> singleCharToken lexer AST.RightParen
     ('!' : '=' : _) -> doubleCharToken lexer AST.NotEqual
     ('<' : next : _)
-      | next == '=' -> doubleCharToken lexer AST.GreaterEqual
-      | otherwise -> singleCharToken lexer AST.Greater
-    ('>' : next : _)
       | next == '=' -> doubleCharToken lexer AST.LessEqual
       | otherwise -> singleCharToken lexer AST.Less
+    ('>' : next : _)
+      | next == '=' -> doubleCharToken lexer AST.GreaterEqual
+      | otherwise -> singleCharToken lexer AST.Greater
     ('.' : next : _)
       | isDigit next -> point lexer
       | otherwise -> (lexer, makeToken lexer (Just $ "Unexpected token '" ++ (next : "'")) AST.Error)
