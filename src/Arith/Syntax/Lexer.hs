@@ -2,8 +2,8 @@
 
 module Arith.Syntax.Lexer (
   Lexer,
-  current,
   LexerState,
+  current,
   withSource,
   scan,
   makeToken,
@@ -49,11 +49,16 @@ scan lexer =
     (')' : _) -> singleCharToken lexer AST.RightParen
     ('!' : '=' : _) -> doubleCharToken lexer AST.NotEqual
     ('<' : next : _)
-      | next == '=' -> doubleCharToken lexer AST.GreaterEqual
-      | otherwise -> singleCharToken lexer AST.Greater
-    ('>' : next : _)
       | next == '=' -> doubleCharToken lexer AST.LessEqual
       | otherwise -> singleCharToken lexer AST.Less
+    ('>' : next : _)
+      | next == '=' -> doubleCharToken lexer AST.GreaterEqual
+      | otherwise -> singleCharToken lexer AST.Greater
+    "sin" -> func lexer "sin"
+    "cos" -> func lexer "cos"
+    "log" -> func lexer "log"
+    "sqrt" -> func lexer "sqrt"
+    "point" -> func lexer "point"
     ('.' : next : _)
       | isDigit next -> point lexer
       | otherwise -> (lexer, makeToken lexer (Just $ "Unexpected token '" ++ (next : "'")) AST.Error)
@@ -90,6 +95,17 @@ doubleCharToken Lexer {..} token_type = (lexer, makeToken lexer Nothing token_ty
   lexer = Lexer {..}
 
 
+func :: Lexer -> String -> (Lexer, AST.Token)
+func Lexer {..} name =
+  let n = length name
+      lexer' =
+        Lexer
+          { source = drop n source
+          , current = current + fromIntegral n
+          }
+   in (lexer', makeToken lexer' (Just name) AST.Function)
+
+
 point :: Lexer -> LexerState
 point Lexer {..} =
   let (result, source, n) = ASU.spanCount source partOfFloatingPoint
@@ -97,6 +113,7 @@ point Lexer {..} =
    in (lexer, makeToken lexer (Just $ '0' : result) AST.Floating)
 
 
+partOfFloatingPoint :: Char -> Bool
 partOfFloatingPoint c = c == '.' || isDigit c
 
 

@@ -4,12 +4,10 @@ module Arith.VM.OpCodes where
 data Value
   = SignedNumber !Integer
   | FloatingPointNumber !Double
-  deriving (Show)
 
 
 data OpCode
-  = Constant !Value
-  | Add
+  = Add
   | Sub
   | Div
   | Mod
@@ -21,4 +19,5 @@ data OpCode
   | GrtrEql
   | Lss
   | LssEql
-  deriving (Show)
+  | Constant !Value
+  | Call !(Value -> Value)

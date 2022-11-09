@@ -18,6 +18,7 @@ data TokenType
   | GreaterEqual
   | Less
   | LessEqual
+  | Function
   | Error
   | End
 
