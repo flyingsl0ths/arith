@@ -47,13 +47,17 @@ executable arith
   hs-source-dirs:   app
   default-language: Haskell2010
 
-test-suite lexer-utils
-  main-is:          LexerUtilsTest.hs
-  other-modules:    Arith.Syntax.Utils
+common test-opts
   build-depends:
     , base   >=4.14   && <4.18
     , hspec  ==2.10.6
 
-  type:             exitcode-stdio-1.0
   hs-source-dirs:   test src
   default-language: Haskell2010
+
+test-suite lexer-utils
+  import:        test-opts
+  main-is:       LexerUtilsTest.hs
+  other-modules: Arith.Syntax.Utils
+  type:          exitcode-stdio-1.0
+
