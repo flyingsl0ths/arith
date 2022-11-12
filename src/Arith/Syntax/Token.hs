@@ -21,6 +21,7 @@ data TokenType
   | Function
   | Error
   | End
+  deriving (Eq, Show)
 
 
 data Token = Token
@@ -28,3 +29,4 @@ data Token = Token
   , lexeme :: !(Maybe String)
   , column :: !Integer
   }
+  deriving (Eq, Show)
