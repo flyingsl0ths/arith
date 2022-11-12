@@ -61,3 +61,12 @@ test-suite lexer-utils
   other-modules: Arith.Syntax.Utils
   type:          exitcode-stdio-1.0
 
+test-suite lexer
+  import:        test-opts
+  main-is:       LexerTest.hs
+  other-modules:
+    Arith.Syntax.Lexer
+    Arith.Syntax.Token
+    Arith.Syntax.Utils
+
+  type:          exitcode-stdio-1.0
