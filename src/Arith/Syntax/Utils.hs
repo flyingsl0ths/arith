@@ -10,11 +10,8 @@ spanCount [c] p =
   let matched = p c
    in ([c | matched], [], if matched then 1 else 0)
 spanCount source p =
-  let matching = takeWhile p source
-   in (matching, dropWhile p source, fromIntegral $ length matching)
- where
-  update (acc, c : rest, count) = (acc ++ [c], rest, count + 1)
-  update (acc, [], count) = (acc, [], count + 1)
+  let (matching, rest) = span p source
+   in (matching, rest, fromIntegral $ length matching)
 
 
 peek :: [a] -> Maybe a
