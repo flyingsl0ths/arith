@@ -57,7 +57,7 @@ main = hspec $ do
   describe "Arith.Syntax.Lexer.point" $ do
     it
       ( "updates the lexer accordingly and returns a token"
-          ++ "representing an abbreviated signed floating point number"
+          ++ " representing an abbreviated signed floating point number"
       )
       $ do
         ASL.point (ASL.withSource "-.10") True
@@ -71,7 +71,7 @@ main = hspec $ do
 
     it
       ( "updates the lexer accordingly and returns a token"
-          ++ "representing an abbreviated floating point number"
+          ++ " representing an abbreviated floating point number"
       )
       $ do
         ASL.point (ASL.withSource ".10") False
