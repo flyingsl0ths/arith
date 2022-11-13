@@ -13,17 +13,17 @@ spanCount source p = sliceCount source p ([], source, 0)
   sliceCount xs p acc@(matches, nonMatching, n)
     | null xs = acc
     | otherwise =
-        let (x : xs') = xs
-         in if p x
-              then
-                sliceCount
-                  xs'
-                  p
-                  ( matches ++ [x]
-                  , xs'
-                  , n + 1
-                  )
-              else acc
+      let (x : xs') = xs
+       in if p x
+            then
+              sliceCount
+                xs'
+                p
+                ( matches ++ [x]
+                , xs'
+                , n + 1
+                )
+            else acc
 
 
 peek :: [a] -> Maybe a
